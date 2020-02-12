@@ -133,6 +133,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+		manifestPlaceholders = [maps_api_key: "$System.env.GOOGLE_MAPS_API_ANDROID"]
     }
     splits {
         abi {
@@ -179,6 +180,11 @@ android {
 }
 
 dependencies {
+    implementation(project(':react-native-maps')){
+      exclude group: 'com.google.android.gms'
+  }
+	implementation 'com.google.android.gms:play-services-maps:16.1.0'
+	implementation 'com.google.android.gms:play-services-base:16.1.0'
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 

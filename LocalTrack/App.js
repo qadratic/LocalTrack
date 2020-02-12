@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import CurrentLocation from './components/CurrentLocation.component';
+import DriverMainScreen from './components/DriverMainScreen.component';
 
 const App = () => {
 	return <View>
-		<CurrentLocation />
+		<DriverMainScreen />
 	</View>
 };
 

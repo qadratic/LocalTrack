@@ -1,7 +1,6 @@
-const io = require('socket.io')();
+// TODO: join rooms!
 
-// do this on database;;
-let drivers = []
+const io = require('socket.io')();
 
 function sendInitialLocation(client) {
 	// 400 in case of ride not started;
@@ -10,10 +9,11 @@ function sendInitialLocation(client) {
 }
 
 function initializeDriver(client, driver) {
-	client.join(driver.number);
+	// client.join(driver.number);
 
 	client.on('location_update', location => {
-		io.to(driver.number).broadcast('location update!');
+		console.log('location update', location)
+		// io.to(driver.number).broadcast('location update!');
 	});
 	client.on('end_journey', () => {
 		// journey ended.
@@ -21,12 +21,12 @@ function initializeDriver(client, driver) {
 }
 
 function initializeRider(client, rider) {
-	client.join(rider.number);
+	// client.join(rider.number);
 	sendInitialLocation(client);
 }
 
 function attatchListeners(client) {
-	client.on('disconnect',()=>{
+	client.on('disconnect', () => {
 		console.log(client.id, 'disconnected')
 		client.removeAllListeners();
 	})
@@ -42,7 +42,7 @@ function attatchListeners(client) {
 
 io.on('connection', client => {
 	attatchListeners(client);
-	console.log(client.id,'connected')
+	console.log(client.id, 'connected')
 });
 
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
-import { View, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 
 export default function DriverMapView(props) {
 	return (

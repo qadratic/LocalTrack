@@ -1,6 +1,6 @@
 import React from 'react'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
 export default function DriverMapView(props) {
 	const styles = StyleSheet.create({
@@ -21,14 +21,14 @@ export default function DriverMapView(props) {
 				provider={PROVIDER_GOOGLE} // remove if not using Google Maps
 				style={styles.map}
 				region={{
-					latitude: props.currentLocation.latitude,
-					longitude: props.currentLocation.longitude,
+					latitude: props.locationInfo.coords.latitude,
+					longitude: props.locationInfo.coords.longitude,
 					latitudeDelta: 0.015,
 					longitudeDelta: 0.0121,
 				}}
 			>
 				<Marker
-					coordinate={{ latitude: props.currentLocation.latitude, longitude: props.currentLocation.longitude }}
+					coordinate={{ latitude: props.locationInfo.coords.latitude, longitude: props.locationInfo.coords.longitude }}
 					title={'You'}
 					description={'your current location'}
 				/>

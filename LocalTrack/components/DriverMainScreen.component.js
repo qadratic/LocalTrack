@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text } from 'react-native'
 import Geolocation from 'react-native-geolocation-service'
-const socket = require('socket.io-client')('http://192.168.1.34:3000');
+import DriverMapView from './DriverMapView.component'
+const socket = require('socket.io-client')('http://192.168.1.34:3000')
 
 export default function DriverMainScreen() {
 	const [locationInfo, setLocationInfo] = useState({
 		coords: {
 			latitude: 0,
 			longitude: 0,
-			loaded: false
-		}
+		},
+		loaded: false,
 	});
 	useEffect(() => {
 		// connect to socket
@@ -26,7 +27,7 @@ export default function DriverMainScreen() {
 		Geolocation.watchPosition(position => {
 			const { latitude, longitude } = position.coords;
 			// socket.emit('location_update', position.coords);
-			setLocationInfo({ latitude, longitude, loaded: true });
+			setLocationInfo({ coords: { latitude, longitude }, loaded: true });
 		}, {
 			enableHighAccuracy: true,
 			distanceFilter: 10,
@@ -41,10 +42,10 @@ export default function DriverMainScreen() {
 	}, []);
 	return (
 		<View>
-			<Text>
+			{/* <Text>
 				{JSON.stringify(locationInfo)}
-			</Text>
-			{/* map view */}
+			</Text> */}
+			{locationInfo.loaded && < DriverMapView locationInfo={locationInfo} />}
 			{/* buttons */}
 		</View>
 	)

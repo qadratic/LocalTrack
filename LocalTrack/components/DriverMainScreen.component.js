@@ -1,62 +1,51 @@
 import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
-import DriverMapView from './DriverMapView.component'
-import CurrentLocation from './CurrentLocation.component'
+import { View, Text } from 'react-native'
 import Geolocation from 'react-native-geolocation-service'
+const socket = require('socket.io-client')('http://192.168.1.34:3000');
 
-let watchIdArr = []
 export default function DriverMainScreen() {
-
-	const [currentLocation, setCurrentLocation] = useState({ latitude: 1, longitude: 1, loaded: false });
-
+	const [locationInfo, setLocationInfo] = useState({
+		coords: {
+			latitude: 0,
+			longitude: 0,
+			loaded: false
+		}
+	});
 	useEffect(() => {
-		Geolocation.getCurrentPosition(({ coords }) => {
-			console.log(coords)
-			setCurrentLocation({ latitude: coords.latitude, longitude: coords.longitude, loaded: true });
-		}, (err) => {
-			console.log(err)
-		}, {
-			enableHighAccuracy: true,
-			timeout: 15000,
-			maximumAge: 10000
+		// connect to socket
+		socket.on('connect', () => {
+			console.log('connected')
+			// setStatus('connected!')
 		});
-	}, []);
+		socket.on('connect_error', (error) => {
+			console.log(error)
+			// setStatus('error connecting')
+		});
 
-	const startObservingLocationUpdates = () => {
-		const id = Geolocation.watchPosition(({ coords }) => {
-			console.log(coords)
-			setCurrentLocation({ latitude: coords.latitude, longitude: coords.longitude, loaded: true })
-		}, (err) => {
-			console.log(err)
+		// watch location
+		Geolocation.watchPosition(position => {
+			const { latitude, longitude } = position.coords;
+			// socket.emit('location_update', position.coords);
+			setLocationInfo({ latitude, longitude, loaded: true });
 		}, {
 			enableHighAccuracy: true,
 			distanceFilter: 10,
 			interval: 1000
 		})
 
-		console.log(id)
-
-		watchIdArr.push(id)
-		// console.log(watchIdArr)
-
-	}
-
-	const stopObservingLocationUpdates = () => {
-		// console.log(watchIdArr)
-		watchIdArr.map(id => Geolocation.clearWatch(id))
-		watchIdArr = []
-		Geolocation.stopObserving()
-	}
-
+		return () => {
+			Geolocation.clearWatch(0);
+			Geolocation.stopObserving();
+			socket.disconnect();
+		}
+	}, []);
 	return (
 		<View>
-			{currentLocation.loaded && <DriverMapView
-				currentLocation={currentLocation}
-			/>}
-			<CurrentLocation
-				startObservingLocationUpdates={startObservingLocationUpdates}
-				stopObservingLocationUpdates={stopObservingLocationUpdates}
-			/>
+			<Text>
+				{JSON.stringify(locationInfo)}
+			</Text>
+			{/* map view */}
+			{/* buttons */}
 		</View>
 	)
 }

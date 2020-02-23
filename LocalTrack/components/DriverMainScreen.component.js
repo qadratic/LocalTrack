@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import Geolocation from 'react-native-geolocation-service'
 import DriverMapView from './DriverMapView.component'
 const socket = require('socket.io-client')('http://192.168.1.34:3000')
@@ -41,11 +41,17 @@ export default function DriverMainScreen() {
 		}
 	}, []);
 	return (
-		<View>
+		<View
+			style={{ height: '100%' }}
+		>
 			{/* <Text>
 				{JSON.stringify(locationInfo)}
 			</Text> */}
-			{locationInfo.loaded && < DriverMapView locationInfo={locationInfo} />}
+			<View
+				style={{ height: '80%' }}
+			>
+				{locationInfo.loaded && < DriverMapView locationInfo={locationInfo} />}
+			</View>
 			{/* buttons */}
 		</View>
 	)

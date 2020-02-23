@@ -3,23 +3,17 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'; // remove 
 import { View, StyleSheet } from 'react-native'
 
 export default function DriverMapView(props) {
-	const styles = StyleSheet.create({
-		container: {
-			// ...StyleSheet.absoluteFillObject,
-			height: 390,
-			width: 310,
-			justifyContent: 'flex-end',
-			alignItems: 'center',
-		},
-		map: {
-			...StyleSheet.absoluteFillObject,
-		},
-	});
 	return (
-		<View style={styles.container}>
+		<View
+			style={{
+				height: '100%'
+			}}
+		>
 			<MapView
 				provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-				style={styles.map}
+				style={{
+					height: '100%'
+				}}
 				region={{
 					latitude: props.locationInfo.coords.latitude,
 					longitude: props.locationInfo.coords.longitude,

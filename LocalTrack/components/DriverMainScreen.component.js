@@ -13,6 +13,7 @@ export default function DriverMainScreen() {
 		},
 		loaded: false,
 	});
+	const [isOnJourney, setIsOnJourney] = useState(false);
 	useEffect(() => {
 		// connect to socket
 		socket.on('connect', () => {
@@ -41,6 +42,14 @@ export default function DriverMainScreen() {
 			socket.disconnect();
 		}
 	}, []);
+	const startJourney = () => {
+		// socket.emit('register_driver');
+		setIsOnJourney(true);
+	}
+	const endJourney = () => {
+		// socket.emit('register_driver');
+		setIsOnJourney(false);
+	}
 	return (
 		<View
 			style={{ height: '100%' }}
@@ -48,13 +57,22 @@ export default function DriverMainScreen() {
 			<View
 				style={{ height: '80%' }}
 			>
-				{locationInfo.loaded && < DriverMapView locationInfo={locationInfo} />}
+				{/* map view */}
+				{locationInfo.loaded &&
+					< DriverMapView {...locationInfo.coords} />
+				}
 			</View>
 			<View style={{
 				height: '20%'
 			}} >
 				{/* buttons */}
-				<DriverBroadcastControls />
+				{locationInfo.loaded &&
+					<DriverBroadcastControls
+						isOnJourney={isOnJourney}
+						startJourney={startJourney}
+						endJourney={endJourney}
+					/>
+				}
 			</View>
 		</View>
 	)

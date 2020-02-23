@@ -15,14 +15,14 @@ export default function DriverMapView(props) {
 					height: '100%'
 				}}
 				region={{
-					latitude: props.locationInfo.coords.latitude,
-					longitude: props.locationInfo.coords.longitude,
+					latitude: props.latitude,
+					longitude: props.longitude,
 					latitudeDelta: 0.015,
 					longitudeDelta: 0.0121,
 				}}
 			>
 				<Marker
-					coordinate={{ latitude: props.locationInfo.coords.latitude, longitude: props.locationInfo.coords.longitude }}
+					coordinate={{ latitude: props.latitude, longitude: props.longitude }}
 					title={'You'}
 					description={'your current location'}
 				/>

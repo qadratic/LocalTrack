@@ -4,11 +4,7 @@ import { View } from 'react-native'
 
 export default function DriverMapView(props) {
 	return (
-		<View
-			style={{
-				height: '100%'
-			}}
-		>
+		<View style={{ height: '100%' }} >
 			<MapView
 				provider={PROVIDER_GOOGLE} // remove if not using Google Maps
 				style={{

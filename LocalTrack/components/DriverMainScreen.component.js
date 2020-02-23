@@ -51,22 +51,18 @@ export default function DriverMainScreen() {
 		setIsOnJourney(false);
 	}
 	return (
-		<View
-			style={{ height: '100%' }}
-		>
-			<View
-				style={{ height: '80%' }}
-			>
+		<View style={{ height: '100%' }} >
+			<View style={{ height: '80%' }} >
 				{/* map view */}
-				{locationInfo.loaded &&
+				{
+					locationInfo.loaded &&
 					< DriverMapView {...locationInfo.coords} />
 				}
 			</View>
-			<View style={{
-				height: '20%'
-			}} >
+			<View style={{ height: '20%' }} >
 				{/* buttons */}
-				{locationInfo.loaded &&
+				{
+					locationInfo.loaded &&
 					<DriverBroadcastControls
 						isOnJourney={isOnJourney}
 						startJourney={startJourney}

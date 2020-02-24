@@ -4,6 +4,7 @@ import Geolocation from 'react-native-geolocation-service'
 import DriverMapView from './DriverMapView.component'
 import DriverBroadcastControls from './DriverBroadcastControls.component'
 import server from './config/serverInfo'
+import TextInputOverlay from './TextInputOverlay.component'
 const socket = require('socket.io-client')(server)
 
 export default function DriverMainScreen() {
@@ -15,6 +16,10 @@ export default function DriverMainScreen() {
 		loaded: false,
 	});
 	const [isOnJourney, setIsOnJourney] = useState(false);
+	const [vehicleNumber, setVeicleNumber] = useState({
+		number: '',
+		showDialogue: true,
+	});
 	useEffect(() => {
 		// connect to socket
 		socket.on('connect', () => {
@@ -22,7 +27,7 @@ export default function DriverMainScreen() {
 			// setStatus('connected!')
 		});
 		socket.on('connect_error', (error) => {
-			console.log(error)
+			// console.log(error)
 			// setStatus('error connecting')
 		});
 
@@ -45,7 +50,7 @@ export default function DriverMainScreen() {
 	}, []);
 	const startJourney = () => {
 		// register driver with its current location
-		socket.emit('register_driver', { number: 'xxxxx', ...locationInfo.coords });
+		socket.emit('register_driver', { number: vehicleNumber.number, ...locationInfo.coords });
 		setIsOnJourney(true);
 	}
 	const endJourney = () => {
@@ -72,6 +77,16 @@ export default function DriverMainScreen() {
 					/>
 				}
 			</View>
+			{
+				vehicleNumber.showDialogue &&
+				<TextInputOverlay
+					prompt='Enter number:'
+					setInfo={(number) => {
+						// check number
+						setVeicleNumber({ number, showDialogue: false });
+					}}
+				/>
+			}
 		</View>
 	)
 }

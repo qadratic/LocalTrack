@@ -10,6 +10,7 @@ function sendInitialLocation(client) {
 
 function initializeDriver(client, driver) {
 	// client.join(driver.number);
+	console.log(driver)
 
 	client.on('location_update', location => {
 		console.log('location update', location)
@@ -17,6 +18,7 @@ function initializeDriver(client, driver) {
 	});
 	client.on('end_journey', () => {
 		// journey ended.
+		console.log('end journey', driver)
 	});
 }
 
@@ -47,4 +49,4 @@ io.on('connection', client => {
 
 
 
-io.listen(3000);
+io.listen(process.env.PORT | 8080);

@@ -2,7 +2,6 @@ import React from 'react'
 import { View, Button } from 'react-native'
 
 export default function DriverBroadcastControls(props) {
-	console.log(props)
 	return (
 		<View style={{
 			flex: 1,

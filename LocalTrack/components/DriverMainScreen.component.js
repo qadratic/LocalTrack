@@ -3,7 +3,8 @@ import { View } from 'react-native'
 import Geolocation from 'react-native-geolocation-service'
 import DriverMapView from './DriverMapView.component'
 import DriverBroadcastControls from './DriverBroadcastControls.component'
-const socket = require('socket.io-client')('http://192.168.1.34:3000')
+import server from './config/serverInfo'
+const socket = require('socket.io-client')(server)
 
 export default function DriverMainScreen() {
 	const [locationInfo, setLocationInfo] = useState({
@@ -21,7 +22,7 @@ export default function DriverMainScreen() {
 			// setStatus('connected!')
 		});
 		socket.on('connect_error', (error) => {
-			// console.log(error)
+			console.log(error)
 			// setStatus('error connecting')
 		});
 
@@ -43,11 +44,12 @@ export default function DriverMainScreen() {
 		}
 	}, []);
 	const startJourney = () => {
-		// socket.emit('register_driver');
+		// register driver with its current location
+		socket.emit('register_driver', { number: 'xxxxx', ...locationInfo.coords });
 		setIsOnJourney(true);
 	}
 	const endJourney = () => {
-		// socket.emit('register_driver');
+		socket.emit('end_journey');
 		setIsOnJourney(false);
 	}
 	return (

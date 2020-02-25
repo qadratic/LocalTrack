@@ -2,13 +2,10 @@
 
 const io = require('socket.io')();
 
-function sendInitialLocation(client) {
-	// 400 in case of ride not started;
-	// client.emit('location_update',400);
-	// client.emit('location_update','list of locations and ride info');
-}
+let driversMap = new Map();
 
 function initializeDriver(client, driver) {
+	driversMap.set(driver.number, 'on_trip')
 	// client.join(driver.number);
 	console.log(driver)
 
@@ -18,13 +15,24 @@ function initializeDriver(client, driver) {
 	});
 	client.on('end_journey', () => {
 		// journey ended.
+		driversMap.set(driver.number, 'finished_ride')
+		// broadcast jpurney ended
 		console.log('end journey', driver)
+		// client.disconnect()
 	});
 }
 
 function initializeRider(client, rider) {
 	// client.join(rider.number);
-	sendInitialLocation(client);
+	if (driversMap.has(rider.number)) {
+		//ride has started
+		if (driversMap.get(rider.number) === 'finished_ride') {
+			client.emit('ride_finished');
+		}
+	} else {
+		//ride not started
+		client.emit('ride_not_started');
+	}
 }
 
 function attatchListeners(client) {

@@ -8,6 +8,10 @@ function initializeDriver(client, driver) {
 	driversMap.set(driver.number, 'on_trip')
 	// client.join(driver.number);
 	console.log(driver)
+	// second listener on disconnect
+	client.on('disconnect', () => {
+		// io.to(driver.number).broadcast('driver_offline');
+	});
 
 	client.on('location_update', location => {
 		console.log('location update', location)
@@ -16,7 +20,7 @@ function initializeDriver(client, driver) {
 	client.on('end_journey', () => {
 		// journey ended.
 		driversMap.set(driver.number, 'finished_ride')
-		// broadcast jpurney ended
+		// broadcast journey ended
 		console.log('end journey', driver)
 		// client.disconnect()
 	});

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import RiderMapView from './RiderMapView.component'
 import TextInputOverlay from './TextInputOverlay.component';
 
@@ -17,6 +17,10 @@ export default function RiderMainScreen() {
 	});
 	return (
 		<View style={{ height: '100%' }} >
+			<View style={{ height: '20%' }} >
+				{/* status */}
+				<Text>Status: {locationInfo.loaded ? 'LOADED' : 'LOADING'}</Text>
+			</View>
 			<View style={{ height: '80%' }} >
 				{/* map view */}
 				{
